@@ -4,28 +4,46 @@ import { render } from 'react-dom';
 class App extends React.Component {
   state = {
     status: 'off',
-    time: '150',
+    time: 150,
     timer: null,
   }
 
-  formatTime(time) {
+  formatTime = time => {
     const minutes = Math.floor(time / 60).toString();
     const seconds = Math.floor(time % 60).toString();
 
     return minutes.padStart(2, '0') + ':' + seconds.padStart(2, '0');
-  }
+  };
 
-  step() {
+  step = () => {
+    this.setState(prevState => ({
+      time: prevState.time - 1,
+    }));
 
-  }
+    console.log('state', this.state);
 
-  startTimer() {
+    if (this.state.time === 0) {
+      if (this.state.status === 'work') {
+        this.setState({
+          status: 'rest',
+          time: 20,
+        });
+      } else if (this.state.status === 'rest') {
+        this.setState({
+          status: 'work',
+          time: 1200,
+        });
+      }
+    }
+  };
+
+  startTimer = () => {
     this.setState({
       status: 'work',
       time: 1200,
       timer: setInterval(this.step, 1000),
     });
-  }
+  };
 
   render() {
     const { status, time, timer } = this.state;
