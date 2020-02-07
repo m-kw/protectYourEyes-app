@@ -20,8 +20,6 @@ class App extends React.Component {
       time: prevState.time - 1,
     }));
 
-    console.log('state', this.state);
-
     if (this.state.time === 0) {
       if (this.state.status === 'work') {
         this.setState({
@@ -42,6 +40,14 @@ class App extends React.Component {
       status: 'work',
       time: 1200,
       timer: setInterval(this.step, 1000),
+    });
+  };
+
+  stopTimer = () => {
+    clearInterval(this.state.timer);
+    this.setState({
+      status: 'off',
+      time: 0,
     });
   };
 
@@ -66,7 +72,7 @@ class App extends React.Component {
 
         {status === 'off' && <button className="btn" onClick={() => this.startTimer()}>Start</button>}
 
-        {status !== 'off' && <button className="btn">Stop</button>}
+        {status !== 'off' && <button className="btn" onClick={() => this.stopTimer()}>Stop</button>}
 
         <button className="btn btn-close">X</button>
       </div>
