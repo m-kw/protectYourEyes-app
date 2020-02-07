@@ -11,10 +11,20 @@ class App extends React.Component {
   formatTime(time) {
     const minutes = Math.floor(time / 60).toString();
     const seconds = Math.floor(time % 60).toString();
-    console.log('minutes: ', minutes);
-    console.log('seconds', seconds);
 
     return minutes.padStart(2, '0') + ':' + seconds.padStart(2, '0');
+  }
+
+  step() {
+
+  }
+
+  startTimer() {
+    this.setState({
+      status: 'work',
+      time: 1200,
+      timer: setInterval(this.step, 1000),
+    });
   }
 
   render() {
@@ -34,9 +44,9 @@ class App extends React.Component {
 
         {status === 'rest' && <img src="./images/rest.png" />}
 
-        {status === 'off' && <div className="timer">{this.formatTime(time)}</div>}
+        {status !== 'off' && <div className="timer">{this.formatTime(time)}</div>}
 
-        {status === 'off' && <button className="btn">Start</button>}
+        {status === 'off' && <button className="btn" onClick={() => this.startTimer()}>Start</button>}
 
         {status !== 'off' && <button className="btn">Stop</button>}
 
