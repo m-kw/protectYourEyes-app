@@ -4,8 +4,17 @@ import { render } from 'react-dom';
 class App extends React.Component {
   state = {
     status: 'off',
-    time: '00:20',
+    time: '150',
     timer: null,
+  }
+
+  formatTime(time) {
+    const minutes = Math.floor(time / 60).toString();
+    const seconds = Math.floor(time % 60).toString();
+    console.log('minutes: ', minutes);
+    console.log('seconds', seconds);
+
+    return minutes.padStart(2, '0') + ':' + seconds.padStart(2, '0');
   }
 
   render() {
@@ -14,6 +23,7 @@ class App extends React.Component {
     return (
       <div>
         <h1>Protect your eyes</h1>
+
         {status === 'off' &&
         <div className="description">
           <p>According to optometrists in order to save your eyes, you should follow the 20/20/20. It means you should to rest your eyes every 20 minutes for 20 seconds by looking more than 20 feet away.</p>
@@ -24,12 +34,12 @@ class App extends React.Component {
 
         {status === 'rest' && <img src="./images/rest.png" />}
 
-        {status !== 'off' && <div className="timer">18:23</div>}
+        {status === 'off' && <div className="timer">{this.formatTime(time)}</div>}
 
         {status === 'off' && <button className="btn">Start</button>}
 
         {status !== 'off' && <button className="btn">Stop</button>}
-        
+
         <button className="btn btn-close">X</button>
       </div>
     )
